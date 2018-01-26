@@ -9,7 +9,7 @@ use yii\web\IdentityInterface;
 use developeruz\db_rbac\interfaces\UserRbacInterface;
 
 /**
- * User model
+ * This is the model class for table "{{%user}}".
  *
  * @property integer $id
  * @property string $first_name
@@ -29,7 +29,6 @@ class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
-
     /**
      * @inheritdoc
      */
@@ -48,13 +47,16 @@ class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
                 'class' => TimestampBehavior::className(),
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => [],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ],
             ]
         ];
     }
 
-    function getUsername()
+    /**
+     * @return string
+     */
+    public function getUsername()
     {
         if(empty($this->first_name))
         {
@@ -105,11 +107,7 @@ class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
     {
         return static::findOne(['email' => $email]);
     }
-    
-    public static function findByUsername($email)
-    {
-        return self::findByEmail($email);
-    }
+
     /**
      * Finds user by password reset token
      *
