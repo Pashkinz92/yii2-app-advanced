@@ -1,4 +1,6 @@
 <?php
+
+use dmstr\helpers\AdminLteHelper;
 use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
@@ -37,7 +39,7 @@ if (Yii::$app->controller->action->id === 'login') {
         <?php $this->head() ?>
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     </head>
-    <body class="hold-transition skin-blue <?= \dmstr\helpers\AdminLteHelper::skinClass() ?> sidebar-mini">
+    <body class="hold-transition <?= AdminLteHelper::skinClass() ?> sidebar-mini">
     <?php $this->beginBody() ?>
     <div class="wrapper">
 

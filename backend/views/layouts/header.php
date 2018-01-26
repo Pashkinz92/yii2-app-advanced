@@ -11,16 +11,13 @@ use yii\helpers\Html;
 
     <nav class="navbar navbar-static-top" role="navigation">
 
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
 
         <div class="navbar-custom-menu">
 
             <ul class="nav navbar-nav">
-
-                <!-- Messages: style can be found in dropdown.less-->
-                <!-- User Account: style can be found in dropdown.less -->
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -30,14 +27,11 @@ use yii\helpers\Html;
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle"
-                                 alt="User Image"/>
-
-                            <p>
-                                <?= Yii::$app->user->identity->username;?>
-                            </p>
+                            <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                            <p><?= Yii::$app->user->identity->username;?></p>
                         </li>
                         <!-- Menu Body -->
+                        <!--<li class="user-body"></li>-->
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-right">
@@ -50,11 +44,6 @@ use yii\helpers\Html;
                         </li>
                     </ul>
                 </li>
-
-                <!-- User Account: style can be found in dropdown.less -->
-                <!--<li>
-                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                </li>-->
             </ul>
         </div>
     </nav>
