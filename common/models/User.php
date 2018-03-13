@@ -1,9 +1,11 @@
 <?php
 namespace common\models;
 
+use common\models\query\UserQuery;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use developeruz\db_rbac\interfaces\UserRbacInterface;
@@ -23,6 +25,8 @@ use developeruz\db_rbac\interfaces\UserRbacInterface;
  * @property integer $updated_at
  * @property string $password write-only password
  * @property string $username read-only username
+ *
+ * @property Company[] $companies
  */
 class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
 {
@@ -69,12 +73,14 @@ class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
     public function rules()
     {
         return [
+            [['email'], 'required'],
+            [['status', 'created_at', 'updated_at'], 'integer'],
+            [['first_name', 'last_name', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
+            [['auth_key'], 'string', 'max' => 32],
+            [['email'], 'unique'],
+            [['password_reset_token'], 'unique'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['email', 'email'],
-            ['email', 'unique'],
-            [['email'], 'required'],
-            [['first_name', 'last_name'], 'safe'],
-            //['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
     }
 
@@ -212,5 +218,22 @@ class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getCompanies()
+    {
+        return $this->hasMany(Company::className(), ['id' => 'company_id'])->viaTable('companies_employees', ['user_id' => 'id']);
+    }
+
+    /**
+     * @inheritdoc
+     * @return UserQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new UserQuery(get_called_class());
     }
 }
