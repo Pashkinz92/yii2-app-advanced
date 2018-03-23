@@ -1,12 +1,10 @@
 <?php
+
 namespace common\models;
 
 use Yii;
 use yii\base\Model;
 
-/**
- * Login form
- */
 class LoginForm extends Model
 {
     public $password;
@@ -14,7 +12,6 @@ class LoginForm extends Model
     public $rememberMe = true;
 
     private $_user;
-
 
     /**
      * @inheritdoc
@@ -63,16 +60,12 @@ class LoginForm extends Model
     }
 
     /**
-     * Finds user by [[username]]
+     * Finds user by [[email]]
      *
      * @return User|null
      */
     protected function getUser()
     {
-        if ($this->_user === null) {
-            $this->_user = User::findByEmail($this->email);
-        }
-
-        return $this->_user;
+        return $this->_user ?: ($this->_user = User::findByEmail($this->email));
     }
 }
